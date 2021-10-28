@@ -8,7 +8,7 @@ contract UniswapV2ERC20 {
     using SafeMathUniswap for uint;
 
     string public constant name = 'TANGOswap LP Token';
-    string public constant symbol = 'MLP';
+    string public constant symbol = 'TLP';
     uint8 public constant decimals = 18;
     uint  public totalSupply;
     mapping(address => uint) public balanceOf;
