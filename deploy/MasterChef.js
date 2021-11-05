@@ -5,11 +5,11 @@ module.exports = async function ({ ethers, deployments, getNamedAccounts }) {
 
   const sushi = await ethers.getContract("SushiToken")
   
-  const startBlock = 989239
-  const endBlock = startBlock + (15684 * 14) // 15684 is approx blocks per day
+  const startBlock = 1517213
+  const endBlock = startBlock + (15684 * 3) // 15684 is approx blocks per day
   const { address } = await deploy("MasterChef", {
     from: deployer,
-    args: [sushi.address, dev, "100000000000000000000", "0", endBlock],
+    args: [sushi.address, dev, "10000000000000000000", "0", endBlock],
     log: true,
     deterministicDeployment: false
   })
