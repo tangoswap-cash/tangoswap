@@ -26,9 +26,14 @@ module.exports = async function ({ ethers, deployments, getNamedAccounts }) {
   }
 
   const masterChef = await ethers.getContract("MasterChef")
-  if (await masterChef.owner() !== dev) {
+  console.log("dev:                ", dev);
+  console.log("deployer:           ", deployer);
+  console.log("masterChef.owner(): ", (await masterChef.owner()));
+
+  // if (await masterChef.owner() !== dev) {
+  if (await masterChef.owner() === deployer) {
     // Transfer ownership of MasterChef to dev
-    console.log("Transfer ownership of MasterChef to dev")
+    console.log("Transfer ownership of MasterChef to dev");
     await (await masterChef.transferOwnership(dev, txOptions)).wait()
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@tangoswapcash/core",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "license": "MIT",
   "types": "./types/index.ts",
   "description": "Core contracts for the TANGOswap protocol",
