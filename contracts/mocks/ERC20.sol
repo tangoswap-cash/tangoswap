@@ -2,14 +2,6 @@
 
 pragma solidity >=0.6.0 <0.8.0;
 
-// import "@openzeppelin/contracts/utils/Context.sol";
-// import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-// import "@openzeppelin/contracts/math/SafeMath.sol";
-
-// import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.4/contracts/utils/Context.sol";
-// import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.1.0/contracts/token/ERC20/IERC20.sol";
-// import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.1.0/contracts/math/SafeMath.sol";
-
 import "./Context.sol";
 import "./IERC20.sol";
 import "./SafeMath.sol";
@@ -38,10 +30,10 @@ import "./SafeMath.sol";
  * functions have been added to mitigate the well-known issues around setting
  * allowances. See {IERC20-approve}.
  */
-contract ERC20Public is Context, IERC20 {
+contract ERC20 is Context, IERC20 {
     using SafeMath for uint256;
 
-    mapping (address => uint256) public _balances;
+    mapping (address => uint256) private _balances;
 
     mapping (address => mapping (address => uint256)) private _allowances;
 

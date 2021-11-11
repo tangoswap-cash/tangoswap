@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: GPL-3.0
-
 pragma solidity =0.6.12;
 
 import './libraries/UniswapV2Library.sol';
@@ -9,6 +8,8 @@ import './interfaces/IUniswapV2Router02.sol';
 import './interfaces/IUniswapV2Factory.sol';
 import './interfaces/IERC20.sol';
 import './interfaces/IWETH.sol';
+
+import "hardhat/console.sol";   //TODO(BiC) remove
 
 contract UniswapV2Router02 is IUniswapV2Router02 {
     using SafeMathUniswap for uint;
@@ -40,6 +41,8 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
         uint amountBMin
     ) internal virtual returns (uint amountA, uint amountB) {
         // create the pair if it doesn't exist yet
+        address pairAddrTemp = IUniswapV2Factory(factory).getPair(tokenA, tokenB);
+        // console.log("contract UniswapV2Router02._addLiquidity() 1 pairAddrTemp:  %s", pairAddrTemp);
         if (IUniswapV2Factory(factory).getPair(tokenA, tokenB) == address(0)) {
             IUniswapV2Factory(factory).createPair(tokenA, tokenB);
         }
@@ -54,6 +57,8 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
             } else {
                 uint amountAOptimal = UniswapV2Library.quote(amountBDesired, reserveB, reserveA);
                 assert(amountAOptimal <= amountADesired);
+                console.log("amountAOptimal: %s", amountAOptimal);
+                console.log("amountAMin:     %s", amountAMin);
                 require(amountAOptimal >= amountAMin, 'UniswapV2Router: INSUFFICIENT_A_AMOUNT');
                 (amountA, amountB) = (amountAOptimal, amountBDesired);
             }
@@ -93,11 +98,14 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
         );
         address pair = UniswapV2Library.pairFor(factory, token, WETH);
         TransferHelper.safeTransferFrom(token, msg.sender, pair, amountToken);
+        IWETH(WETH);
         IWETH(WETH).deposit{value: amountETH}();
         assert(IWETH(WETH).transfer(pair, amountETH));
         liquidity = IUniswapV2Pair(pair).mint(to);
         // refund dust eth, if any
-        if (msg.value > amountETH) TransferHelper.safeTransferETH(msg.sender, msg.value - amountETH);
+        if (msg.value > amountETH) { 
+            TransferHelper.safeTransferETH(msg.sender, msg.value - amountETH);
+        }
     }
 
     // **** REMOVE LIQUIDITY ****

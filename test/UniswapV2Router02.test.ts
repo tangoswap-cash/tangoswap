@@ -48,7 +48,8 @@ describe("UniswapV2Router02", function () {
         gasLimit: 9500000
       }
 
-      const sushiAmount = "813666000000000000";
+      // const sushiAmount = "813666000000000000";
+      const sushiAmount = "1000000000000000";
       const WETHAmount = "1000000000000000";
 
       console.log("test addLiquidityETH this.router.address:   ", this.router.address);
