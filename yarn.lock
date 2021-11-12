@@ -703,10 +703,10 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@tangoswapcash/sdk@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.npmjs.org/@tangoswapcash/sdk/-/sdk-0.0.3.tgz"
-  integrity sha512-nkCfwTnbZSB4iuCQYAs0mph5dgaFaXQ9Xv3K7ExQiiLMONyk6GfROp/P5EC6ITnrBmsxDSQNb1FV6IDZMJ/lOg==
+"@tangoswapcash/sdk@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@tangoswapcash/sdk/-/sdk-0.0.6.tgz#c9c2f501dbe08f6a1f79017610aa492f3c0df70f"
+  integrity sha512-eJLxUyfw367x4WfX1Jsmpv9+JF7Gca/feU9KqJcuifJ5CetU1oBD2jx+mdhiefcqzhh5+oFaVRGG/Y1a98vr6A==
   dependencies:
     big.js "^6.1.0"
     decimal.js-light "^2.5.0"
