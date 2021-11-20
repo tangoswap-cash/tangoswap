@@ -2,11 +2,8 @@
 
 pragma solidity 0.6.12;
 
-// import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "./ERC20Public.sol";
 import '../uniswapv2/interfaces/IWETH.sol';
-
-// import "hardhat/console.sol";   //TODO(BiC) remove
 
 contract WETH9Mock is ERC20Public { //, IWETH
 	string public k_name = "Wrapped Ether";
@@ -21,10 +18,7 @@ contract WETH9Mock is ERC20Public { //, IWETH
     }
 
 	function deposit() public payable {
-		// console.log("contract WETH9Mock.deposit() 1");
 		_balances[msg.sender] += msg.value;
-		// console.log("contract WETH9Mock.deposit() 2");
 		emit Deposit(msg.sender, msg.value);
-		// console.log("contract WETH9Mock.deposit() 3");
 	}
 }
