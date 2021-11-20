@@ -325,6 +325,14 @@ task("masterchef:set:cancel", "Set farm allocation points (timelock cancel)")
   })).wait()
 });
 
+task("masterchef:poollen", "Query farm of masterchef")
+.setAction(async function ({ }, { ethers: { getNamedSigner } }, runSuper) {
+  const masterChef = await ethers.getContract("MasterChef")
+
+  console.log('address', masterChef.address)
+  console.log('poolLength', await (await masterChef.connect(await getNamedSigner('dev')).poolLength()).toString())
+});
+
 task("masterchef:farm", "Query farm of masterchef")
 .addParam("pid", "Pool ID")
 .setAction(async function ({ pid }, { ethers: { getNamedSigner } }, runSuper) {
