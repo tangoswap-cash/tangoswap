@@ -9,8 +9,6 @@ import './interfaces/IUniswapV2Factory.sol';
 import './interfaces/IERC20.sol';
 import './interfaces/IWETH.sol';
 
-import "hardhat/console.sol";   //TODO(BiC) remove
-
 contract UniswapV2Router02 is IUniswapV2Router02 {
     using SafeMathUniswap for uint;
 
@@ -42,7 +40,6 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
     ) internal virtual returns (uint amountA, uint amountB) {
         // create the pair if it doesn't exist yet
         address pairAddrTemp = IUniswapV2Factory(factory).getPair(tokenA, tokenB);
-        // console.log("contract UniswapV2Router02._addLiquidity() 1 pairAddrTemp:  %s", pairAddrTemp);
         if (IUniswapV2Factory(factory).getPair(tokenA, tokenB) == address(0)) {
             IUniswapV2Factory(factory).createPair(tokenA, tokenB);
         }
@@ -57,8 +54,6 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
             } else {
                 uint amountAOptimal = UniswapV2Library.quote(amountBDesired, reserveB, reserveA);
                 assert(amountAOptimal <= amountADesired);
-                console.log("amountAOptimal: %s", amountAOptimal);
-                console.log("amountAMin:     %s", amountAMin);
                 require(amountAOptimal >= amountAMin, 'UniswapV2Router: INSUFFICIENT_A_AMOUNT');
                 (amountA, amountB) = (amountAOptimal, amountBDesired);
             }
