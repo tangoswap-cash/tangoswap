@@ -39,7 +39,6 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
         uint amountBMin
     ) internal virtual returns (uint amountA, uint amountB) {
         // create the pair if it doesn't exist yet
-        address pairAddrTemp = IUniswapV2Factory(factory).getPair(tokenA, tokenB);
         if (IUniswapV2Factory(factory).getPair(tokenA, tokenB) == address(0)) {
             IUniswapV2Factory(factory).createPair(tokenA, tokenB);
         }
@@ -94,36 +93,11 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
         );
         address pair = UniswapV2Library.pairFor(factory, token, WETH);
         TransferHelper.safeTransferFrom(token, msg.sender, pair, amountToken);
-        IWETH(WETH);
         IWETH(WETH).deposit{value: amountETH}();
         assert(IWETH(WETH).transfer(pair, amountETH));
         liquidity = IUniswapV2Pair(pair).mint(to);
         // refund dust eth, if any
-        if (msg.value > amountETH) {
-            TransferHelper.safeTransferETH(msg.sender, msg.value - amountETH);
-        }
-    }
-
-    function addLiquidityETHTemp(
-        address token,
-        uint amountTokenDesired,
-        uint amountTokenMin,
-        uint amountETHMin,
-        address to,
-        uint deadline
-    ) external virtual payable ensure(deadline) returns
-        (uint amountToken, uint amountETH, address pair, address sender) {
-
-        (amountToken, amountETH) = _addLiquidity(
-            token,
-            WETH,
-            amountTokenDesired,
-            msg.value,
-            amountTokenMin,
-            amountETHMin
-        );
-        pair = UniswapV2Library.pairFor(factory, token, WETH);
-        sender = msg.sender;
+        if (msg.value > amountETH) TransferHelper.safeTransferETH(msg.sender, msg.value - amountETH);
     }
 
     // **** REMOVE LIQUIDITY ****
