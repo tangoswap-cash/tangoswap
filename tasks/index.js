@@ -43,10 +43,10 @@ task("erc20:approve", "ERC20 approve")
 .addOptionalParam("deadline", MaxUint256)
 .setAction(async function ({ token, spender, deadline }, { ethers: { getNamedSigner } }, runSuper) {
   const erc20 = await ethers.getContractFactory("UniswapV2ERC20")
-  
-  const slp = erc20.attach(token)   
-  
-  await (await slp.connect(await getNamedSigner("dev")).approve(spender, deadline)).wait()    
+
+  const slp = erc20.attach(token)
+
+  await (await slp.connect(await getNamedSigner("dev")).approve(spender, deadline)).wait()
 });
 
 task("factory:set-fee-to", "Factory set fee to")
@@ -103,7 +103,7 @@ task("router:add-liquidity", "Router add liquidity")
   const router = await ethers.getContract("UniswapV2Router")
   await run("erc20:approve", { token: tokenA, spender: router.address })
   await run("erc20:approve", { token: tokenB, spender: router.address })
-  await (await router.connect(await getNamedSigner("dev")).addLiquidity(tokenA, tokenB, tokenADesired, tokenBDesired, tokenAMinimum, tokenBMinimum, to, deadline)).wait()    
+  await (await router.connect(await getNamedSigner("dev")).addLiquidity(tokenA, tokenB, tokenADesired, tokenBDesired, tokenAMinimum, tokenBMinimum, to, deadline)).wait()
 });
 
 // TODO: Test
@@ -117,7 +117,7 @@ task("router:add-liquidity-eth", "Router add liquidity eth")
 .setAction(async function ({ token, tokenDesired, tokenMinimum, ethMinimum, to, deadline }, { ethers: { getNamedSigner } }, runSuper) {
   const router = await ethers.getContract("UniswapV2Router")
   await run("erc20:approve", { token, spender: router.address })
-  await (await router.connect(await getNamedSigner("dev")).addLiquidityETH(token, tokenDesired, tokenMinimum, ethMinimum, to, deadline)).wait()    
+  await (await router.connect(await getNamedSigner("dev")).addLiquidityETH(token, tokenDesired, tokenMinimum, ethMinimum, to, deadline)).wait()
 });
 
 task("migrate", "Migrates liquidity from BenSwap to SushiSwap")
@@ -324,6 +324,14 @@ task("masterchef:set:cancel", "Set farm allocation points (timelock cancel)")
   })).wait()
 });
 
+task("masterchef:poollen", "Query farm of masterchef")
+.setAction(async function ({ }, { ethers: { getNamedSigner } }, runSuper) {
+  const masterChef = await ethers.getContract("MasterChef")
+
+  console.log('address', masterChef.address)
+  console.log('poolLength', await (await masterChef.connect(await getNamedSigner('dev')).poolLength()).toString())
+});
+
 task("masterchef:farm", "Query farm of masterchef")
 .addParam("pid", "Pool ID")
 .setAction(async function ({ pid }, { ethers: { getNamedSigner } }, runSuper) {
@@ -386,7 +394,7 @@ task("bar:enter", "SushiBar enter")
   const bar = await ethers.getContract("SushiBar")
 
   await run("erc20:approve", { token: sushi.address, spender: bar.address })
-  
+
   await (await bar.connect(await getNamedSigner("dev")).enter(amount)).wait()
 });
 
@@ -398,7 +406,7 @@ task("bar:leave", "SushiBar leave")
   const bar = await ethers.getContract("SushiBar")
 
   await run("erc20:approve", { token: sushi.address, spender: bar.address })
-  
+
   await (await bar.connect(await getNamedSigner("dev")).leave(amount)).wait()
 });
 

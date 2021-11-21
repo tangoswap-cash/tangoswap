@@ -4,12 +4,12 @@ module.exports = async function ({ ethers, deployments, getNamedAccounts }) {
   const { deployer, dev } = await getNamedAccounts()
 
   const sushi = await ethers.getContract("SushiToken")
-  
-  const startBlock = 989239
+
+  const startBlock = 1517213
   const endBlock = startBlock + (15684 * 14) // 15684 is approx blocks per day
   const { address } = await deploy("MasterChef", {
     from: deployer,
-    args: [sushi.address, dev, "100000000000000000000", "0", endBlock],
+    args: [sushi.address, dev, "10000000000000000000", "0", endBlock],
     log: true,
     deterministicDeployment: false
   })
@@ -26,9 +26,14 @@ module.exports = async function ({ ethers, deployments, getNamedAccounts }) {
   }
 
   const masterChef = await ethers.getContract("MasterChef")
-  if (await masterChef.owner() !== dev) {
+  console.log("dev:                ", dev);
+  console.log("deployer:           ", deployer);
+  console.log("masterChef.owner(): ", (await masterChef.owner()));
+
+  // if (await masterChef.owner() !== dev) {
+  if (await masterChef.owner() === deployer) {
     // Transfer ownership of MasterChef to dev
-    console.log("Transfer ownership of MasterChef to dev")
+    console.log("Transfer ownership of MasterChef to dev");
     await (await masterChef.transferOwnership(dev, txOptions)).wait()
   }
 }

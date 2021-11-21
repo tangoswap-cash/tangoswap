@@ -72,7 +72,8 @@ const config: HardhatUserConfig = {
       gasMultiplier: 2,
     },
     "smartbch-amber": {
-      url: "https://moeing.tech:9545",
+      url: "http://35.220.203.194:8545",
+      // url: "https://moeing.tech:9545",
       accounts,
       chainId: 10001,
       live: true,

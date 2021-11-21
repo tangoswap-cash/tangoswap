@@ -1,6 +1,6 @@
 # Security Policy
 
-At MISTswap, we consider the security of our systems a top priority. But even with such priority and maximum effort, there is still the possibility that vulnerabilities can exist. 
+At TANGOswap, we consider the security of our systems a top priority. But even with such priority and maximum effort, there is still the possibility that vulnerabilities can exist. 
 
 In case you discover a vulnerability, we would like to know about it immediately so we can take steps to address it as quickly as possible.  
 

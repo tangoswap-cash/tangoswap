@@ -1,4 +1,4 @@
-const { WETH9 } = require("@mistswapdex/sdk")
+const { WBCH } = require("@tangoswapcash/sdk")
 
 module.exports = async function ({ ethers: { getNamedSigner }, getNamedAccounts, deployments }) {
   const { deploy } = deployments
@@ -10,13 +10,13 @@ module.exports = async function ({ ethers: { getNamedSigner }, getNamedAccounts,
   const factory = await ethers.getContract("UniswapV2Factory")
   const bar = await ethers.getContract("SushiBar")
   const sushi = await ethers.getContract("SushiToken")
-  
+
   let wethAddress;
-  
+
   if (chainId === '31337') {
     wethAddress = (await deployments.get("WETH9Mock")).address
-  } else if (chainId in WETH9) {
-    wethAddress = WETH9[chainId].address
+  } else if (chainId in WBCH) {
+    wethAddress = WBCH[chainId].address
   } else {
     throw Error("No WETH!")
   }
