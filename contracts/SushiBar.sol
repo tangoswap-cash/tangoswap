@@ -28,7 +28,7 @@ contract SushiBar is ERC20("TANGObar", "xTANGO"){
         // If no xSushi exists, mint it 1:1 to the amount put in
         if (totalShares == 0 || totalSushi == 0) {
             _mint(msg.sender, _amount);
-        } 
+        }
         // Calculate and mint the amount of xSushi the Sushi is worth. The ratio will change overtime, as xSushi is burned/minted and Sushi deposited + gained from fees / withdrawn.
         else {
             uint256 what = _amount.mul(totalShares).div(totalSushi);

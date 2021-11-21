@@ -5,6 +5,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
 
   await deploy("WETH9Mock", {
     from: deployer,
+    args: ["54800000000000000"],
     log: true,
   })
 }

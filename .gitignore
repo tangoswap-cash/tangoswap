@@ -11,3 +11,5 @@ coverage.json
 .DS_Store
 yarn-error.log
 deployments/smartbch-amber-old/
+contracts/uniswapv2/UniswapV2Router02WithConsole.sol
+contracts/uniswapv2/libraries/UniswapV2LibraryWithConsole.sol
