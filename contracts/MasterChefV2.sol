@@ -65,7 +65,7 @@ contract MasterChefV2 is BoringOwnable, BoringBatchable {
     /// @dev Total allocation points. Must be the sum of all allocation points in all pools.
     uint256 public totalAllocPoint;
 
-    uint256 private constant MASTERCHEF_SUSHI_PER_BLOCK = 1e20;
+    uint256 private constant MASTERCHEF_SUSHI_PER_BLOCK = 1e19;
     uint256 private constant ACC_SUSHI_PRECISION = 1e12;
 
     event Deposit(address indexed user, uint256 indexed pid, uint256 amount, address indexed to);
@@ -243,7 +243,7 @@ contract MasterChefV2 is BoringOwnable, BoringBatchable {
         if (address(_rewarder) != address(0)) {
             _rewarder.onSushiReward(pid, msg.sender, to, 0, user.amount);
         }
-        
+
         lpToken[pid].safeTransfer(to, amount);
 
         emit Withdraw(msg.sender, pid, amount, to);
@@ -265,7 +265,7 @@ contract MasterChefV2 is BoringOwnable, BoringBatchable {
         if (_pendingSushi != 0) {
             SUSHI.safeTransfer(to, _pendingSushi);
         }
-        
+
         IRewarder _rewarder = rewarder[pid];
         if (address(_rewarder) != address(0)) {
             _rewarder.onSushiReward( pid, msg.sender, to, _pendingSushi, user.amount);
@@ -273,7 +273,7 @@ contract MasterChefV2 is BoringOwnable, BoringBatchable {
 
         emit Harvest(msg.sender, pid, _pendingSushi);
     }
-    
+
     /// @notice Withdraw LP tokens from MCV2 and harvest proceeds for transaction sender to `to`.
     /// @param pid The index of the pool. See `poolInfo`.
     /// @param amount LP token amount to withdraw.
@@ -287,7 +287,7 @@ contract MasterChefV2 is BoringOwnable, BoringBatchable {
         // Effects
         user.rewardDebt = accumulatedSushi.sub(int256(amount.mul(pool.accSushiPerShare) / ACC_SUSHI_PRECISION));
         user.amount = user.amount.sub(amount);
-        
+
         // Interactions
         SUSHI.safeTransfer(to, _pendingSushi);
 
