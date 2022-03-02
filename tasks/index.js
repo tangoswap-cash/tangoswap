@@ -204,6 +204,32 @@ task("timelock:logs", "Get logs from timelock")
   }
 })
 
+task("timelock:get-delay", "Set Timelock delay")
+.setAction(async function ({ _ }, { ethers: { getNamedSigner } }, runSuper) {
+  const timelock = await ethers.getContract("Timelock")
+
+  const currentDelay = await timelock.delay();
+  console.log(`delay: ${currentDelay}`)
+})
+
+task("timelock:set-delay", "Set Timelock delay")
+.addParam("delay", "Delay")
+.setAction(async function ({ delay }, { ethers: { getNamedSigner } }, runSuper) {
+  const timelock = await ethers.getContract("Timelock")
+
+  let currentDelay = await timelock.delay();
+  console.log(`delay: ${currentDelay}`)
+
+
+  await (await timelock.connect(await getNamedSigner("dev")).setDelay(delay, {
+    gasPrice: 1050000000,
+    gasLimit: 5198000,
+  })).wait()
+
+  currentDelay = await timelock.delay();
+  console.log(`delay: ${currentDelay}`)
+})
+
 task("masterchef:add", "Add farm to masterchef")
 .addParam("alloc", "Allocation Points")
 .addParam("address", "Pair Address")
@@ -236,6 +262,21 @@ task("masterchefv2:add", "Add farm to masterchefV2")
   const masterChefV2 = await ethers.getContract("MasterChefV2")
 
   await (await masterChefV2.connect(await getNamedSigner("dev")).add(alloc, address, rewarder, {
+    gasPrice: 1050000000,
+    gasLimit: 5198000,
+  })).wait()
+});
+
+task("masterchefv2:set-without-rewarder", "Set farm allocation points to masterChefV2")
+.addParam("pid", "Pool ID")
+.addParam("alloc", "Allocation Points")
+.setAction(async function ({ pid, alloc }, { ethers: { getNamedSigner } }, runSuper) {
+  const masterChefV2 = await ethers.getContract("MasterChefV2")
+
+  const nullAddr = '0x0000000000000000000000000000000000000000';
+
+  // function set(uint256 _pid, uint256 _allocPoint, IRewarder _rewarder, bool overwrite) public onlyOwner {
+  await (await masterChefV2.connect(await getNamedSigner("dev")).set(pid, alloc, nullAddr, false, {
     gasPrice: 1050000000,
     gasLimit: 5198000,
   })).wait()
