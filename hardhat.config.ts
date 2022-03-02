@@ -16,7 +16,7 @@ import "./tasks"
 import { HardhatUserConfig } from "hardhat/types"
 import { removeConsoleLog } from "hardhat-preprocessor"
 
-const accounts = [process.env.DEPLOYER_PRIVATE_KEY, process.env.DEV_PRIVATE_KEY]
+const accounts = [process.env.DEPLOYER_PRIVATE_KEY, process.env.DEV_PRIVATE_KEY, process.env.TESTER_PRIVATE_KEY]
 
 const config: HardhatUserConfig = {
   abiExporter: {
@@ -46,6 +46,9 @@ const config: HardhatUserConfig = {
       // dev address mainnet
       // 1: "",
     },
+    tester: {
+      default: 2,
+    },
   },
   networks: {
     localhost: {
@@ -65,6 +68,7 @@ const config: HardhatUserConfig = {
     },
     smartbch: {
       url: "https://smartbch.fountainhead.cash/mainnet",
+      // url: "https://smartbch.greyh.at",
       accounts,
       chainId: 10000,
       live: true,
